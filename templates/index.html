@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI System Health Engine | Early Performance Degradation Detection</title>
+    <meta name="description" content="AI-Based System Health Monitoring Engine for early detection of operating system performance degradation using psutil, Isolation Forest, and Z-Score analysis.">
+    <!-- Google Fonts: Plus Jakarta Sans & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Background Ambient Glows -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+    <div class="ambient-glow glow-3"></div>
+
+    <div class="app-container">
+        <!-- Top Navigation Bar -->
+        <header class="top-nav">
+            <div class="nav-brand">
+                <div class="brand-icon">
+                    <span class="pulse-ring"></span>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <h1>AI System Health Engine</h1>
+                    <p class="subtitle">Early Detection of OS Performance Degradation</p>
+                </div>
+            </div>
+
+            <!-- Header Stats & Status -->
+            <div class="nav-status">
+                <div class="status-chip live-chip">
+                    <span class="live-dot"></span>
+                    <span>LIVE STREAMING</span>
+                </div>
+                <div class="status-chip" id="aiModelBadge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                    <span>Isolation Forest: Active</span>
+                </div>
+                <button class="btn-action btn-sm" id="exportBtn" title="Export CSV Report">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    Export Log
+                </button>
+            </div>
+        </header>
+
+        <!-- Viva & Presentation Demo Action Bar -->
+        <section class="viva-demo-bar" aria-label="Viva Examination Controls">
+            <div class="viva-bar-header">
+                <div class="viva-title">
+                    <span class="tag-badge">VIVA DEMO PANEL</span>
+                    <span>Interactive Stress Injection (Demonstrate Real-Time AI Detection)</span>
+                </div>
+                <span class="viva-desc">Click to induce controlled stressors and watch the AI engine detect degradation in real-time</span>
+            </div>
+            <div class="viva-actions">
+                <button class="viva-btn btn-cpu" id="stressCpuBtn">
+                    <span class="btn-icon">⚡</span>
+                    <span>Simulate CPU Spike</span>
+                </button>
+                <button class="viva-btn btn-mem" id="stressMemBtn">
+                    <span class="btn-icon">💧</span>
+                    <span>Simulate Memory Leak</span>
+                </button>
+                <button class="viva-btn btn-io" id="stressIoBtn">
+                    <span class="btn-icon">💾</span>
+                    <span>Burst Disk I/O</span>
+                </button>
+                <button class="viva-btn btn-stop" id="stressStopBtn">
+                    <span class="btn-icon">🛑</span>
+                    <span>Stop Stressors</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Main Dashboard Grid -->
+        <main class="dashboard-grid">
+            <!-- Left Column: Health Score Card & Live Primary Metric Cards -->
+            <section class="hero-metrics-section">
+                <!-- System Health Index Master Card -->
+                <div class="glass-card health-score-card" id="healthCard">
+                    <div class="card-header">
+                        <h3>Composite System Health Index</h3>
+                        <span class="badge" id="healthStatusBadge">Optimal</span>
+                    </div>
+                    <div class="health-gauge-container">
+                        <div class="circular-progress" id="circularProgress">
+                            <div class="progress-inner">
+                                <span class="score-number" id="healthScoreNum">98.5</span>
+                                <span class="score-label">/ 100 HEALTH</span>
+                            </div>
+                        </div>
+                        <div class="health-meta">
+                            <div class="meta-item">
+                                <span class="meta-label">Degradation Risk</span>
+                                <span class="meta-val" id="riskLevel">Very Low</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">ML Anomaly Score</span>
+                                <span class="meta-val" id="mlScoreVal">0.05 (Normal)</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-label">Uptime</span>
+                                <span class="meta-val" id="uptimeVal">--</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="health-message-banner" id="healthBanner">
+                        <span class="banner-icon">✓</span>
+                        <span id="healthBannerText">All operating system metrics are operating within normal statistical baselines.</span>
+                    </div>
+                </div>
+
+                <!-- 4 Real-time Metric Cards -->
+                <div class="metric-cards-grid">
+                    <!-- CPU Card -->
+                    <div class="glass-card metric-card" id="cardCpu">
+                        <div class="metric-top">
+                            <span class="metric-title">CPU Utilisation</span>
+                            <span class="metric-icon cpu-icon">⚡</span>
+                        </div>
+                        <div class="metric-number">
+                            <span id="cpuVal">0.0</span><span class="unit">%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="cpuBar" style="width: 0%"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span>Baseline: <strong id="cpuBaseline">--</strong></span>
+                            <span>Z-Score: <strong id="cpuZScore">0.0σ</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- RAM Card -->
+                    <div class="glass-card metric-card" id="cardMem">
+                        <div class="metric-top">
+                            <span class="metric-title">RAM (Memory)</span>
+                            <span class="metric-icon mem-icon">🧠</span>
+                        </div>
+                        <div class="metric-number">
+                            <span id="memVal">0.0</span><span class="unit">%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="memBar" style="width: 0%"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span id="memUsedLabel">Used: -- GB</span>
+                            <span>Trend: <strong id="memSlopeLabel">0.0%/s</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Disk Usage & I/O Card -->
+                    <div class="glass-card metric-card" id="cardDisk">
+                        <div class="metric-top">
+                            <span class="metric-title">Disk Storage & I/O</span>
+                            <span class="metric-icon disk-icon">💽</span>
+                        </div>
+                        <div class="metric-number">
+                            <span id="diskVal">0.0</span><span class="unit">%</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="diskBar" style="width: 0%"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span>I/O: <strong id="diskIoVal">0.0 MB/s</strong></span>
+                            <span>Free: <strong id="diskFreeVal">-- GB</strong></span>
+                        </div>
+                    </div>
+
+                    <!-- Processes & Swap Card -->
+                    <div class="glass-card metric-card" id="cardProc">
+                        <div class="metric-top">
+                            <span class="metric-title">Active Processes</span>
+                            <span class="metric-icon proc-icon">⚙️</span>
+                        </div>
+                        <div class="metric-number">
+                            <span id="procVal">0</span><span class="unit">procs</span>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" id="procBar" style="width: 30%"></div>
+                        </div>
+                        <div class="metric-footer">
+                            <span>Swap Usage: <strong id="swapVal">0%</strong></span>
+                            <span>Net I/O: <strong id="netIoVal">0.0 MB/s</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Middle Section: Real-time Charts (CPU/RAM vs Baseline) -->
+            <section class="charts-section">
+                <div class="glass-card chart-card">
+                    <div class="card-header">
+                        <div class="chart-title-wrap">
+                            <h3>Live Performance Trends vs Normal Dynamic Baseline</h3>
+                            <p class="chart-subtitle">Real-time streaming comparison highlighting statistical standard deviation envelopes</p>
+                        </div>
+                        <div class="chart-toggle-group">
+                            <button class="toggle-btn active" data-view="cpu">CPU %</button>
+                            <button class="toggle-btn" data-view="memory">RAM %</button>
+                            <button class="toggle-btn" data-view="disk_io">Disk I/O</button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="liveMetricsChart" height="110"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bottom Section: AI Anomaly Log Feed & Top Process Inspector -->
+            <section class="bottom-section-grid">
+                <!-- AI Anomaly Detection Live Feed -->
+                <div class="glass-card anomaly-feed-card">
+                    <div class="card-header">
+                        <div class="feed-header-left">
+                            <span class="live-dot alert-dot"></span>
+                            <h3>AI Anomaly & Degradation Events</h3>
+                        </div>
+                        <span class="event-count-badge" id="anomalyCount">0 Events</span>
+                    </div>
+                    <div class="anomaly-list" id="anomalyList">
+                        <div class="empty-state">
+                            <span class="empty-icon">🛡️</span>
+                            <p>No anomalies detected. System operating inside normal baseline profile.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Resource-Consuming Processes Inspector -->
+                <div class="glass-card process-table-card">
+                    <div class="card-header">
+                        <h3>Top Resource-Consuming Processes</h3>
+                        <span class="table-legend">Ranked by CPU + RAM load</span>
+                    </div>
+                    <div class="table-wrapper">
+                        <table class="process-table" id="processTable">
+                            <thead>
+                                <tr>
+                                    <th>PID</th>
+                                    <th>Process Name</th>
+                                    <th>CPU %</th>
+                                    <th>RAM %</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="processTableBody">
+                                <tr>
+                                    <td colspan="5" class="table-loading">Scanning running processes...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <div class="footer-info">
+                <span>AI-Based System Health Monitoring Engine &bull; Academic Project Review</span>
+            </div>
+            <div class="footer-tech">
+                <span class="tech-pill">Python psutil</span>
+                <span class="tech-pill">Isolation Forest (scikit-learn)</span>
+                <span class="tech-pill">Z-Score Normalization</span>
+                <span class="tech-pill">Flask + SSE</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Toast Notification Container for Instant Warning Messages -->
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>
