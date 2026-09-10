@@ -4,7 +4,7 @@ A real-time, AI-driven operating system health monitoring engine designed to det
 
 ---
 
-## 🌟 Key Features
+##  Key Features
 
 1. **Continuous Real-Time Data Collection (`psutil`)**
    - **CPU**: Overall utilization, per-core metrics, frequency, and core counts.
@@ -31,10 +31,10 @@ A real-time, AI-driven operating system health monitoring engine designed to det
 
 5. **Viva Demo Panel & Stress Simulator**
    - Built-in safe synthetic workload triggers for live viva evaluation:
-     - ⚡ **CPU Spike**: Controlled multi-core workload.
-     - 💧 **Memory Leak**: Stepwise allocation with auto-cleanup.
-     - 💾 **Disk I/O Storm**: Rapid temporary disk writes and removals.
-     - 🛑 **Kill Switch**: Immediate stressor termination.
+     -  **CPU Spike**: Controlled multi-core workload.
+     -  **Memory Leak**: Stepwise allocation with auto-cleanup.
+     -  **Disk I/O Storm**: Rapid temporary disk writes and removals.
+     -  **Kill Switch**: Immediate stressor termination.
 
 6. **Dual Interactive Dashboards**
    - **Flask Real-Time Dashboard**: Modern dark-mode glassmorphic interface with Server-Sent Events (SSE) 1-second dynamic streaming, Chart.js graphs, health gauge, and toast alerts.
@@ -42,7 +42,7 @@ A real-time, AI-driven operating system health monitoring engine designed to det
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ```
 +-------------------------------------------------------------+
@@ -90,7 +90,7 @@ A real-time, AI-driven operating system health monitoring engine designed to det
 
 ---
 
-## 🚀 Quick Start Guide
+##  Quick Start Guide
 
 ### 1. Activate Virtual Environment
 ```powershell
@@ -112,7 +112,7 @@ Open your browser at: **[http://localhost:8501](http://localhost:8501)**
 
 ---
 
-## 🧪 Running Automated Tests
+##  Running Automated Tests
 
 Run the test suite to verify metric collection, baseline computation, Isolation Forest inference, and SQLite persistence:
 ```powershell
@@ -121,7 +121,7 @@ python -m unittest tests/test_engine.py
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 project/
