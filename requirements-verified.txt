@@ -1,0 +1,10 @@
+# Direct dependencies used in the Windows/Python 3.13.7 verification run.
+psutil==7.2.2
+numpy==2.4.3
+pandas==2.3.3
+scikit-learn==1.8.0
+streamlit==1.55.0
+plotly==6.6.0
+PyYAML==6.0.3
+pytest==9.1.1
+pytest-cov==7.1.0

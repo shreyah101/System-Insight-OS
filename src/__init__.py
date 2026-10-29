@@ -1,4 +1,1 @@
-"""
-AI-Based System Health Monitoring Engine package
-"""
-__version__ = "1.0.0"
+"""System Insight OS: local telemetry, detection and investigation."""

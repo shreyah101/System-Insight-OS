@@ -1,35 +1,25 @@
-# Virtual Environment
 .venv/
-venv/
-env/
-ENV/
-
-# Python Bytecode and Cache
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-
-# Database & Runtime Logs
-data/*.db
-data/*.sqlite
-data/*.sqlite3
-logs/*.log
-*.log
-
-# Keep directories in git
-!data/.gitkeep
-!logs/.gitkeep
-
-# IDE and OS
-.vscode/
-.idea/
-*.swp
-*.swo
-.DS_Store
-Thumbs.db
-
-# Testing / Pytest
 .pytest_cache/
 .coverage
 htmlcov/
+data/*
+!data/.gitkeep
+output/
+*.log
+venv/
+.env
+.env.*
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+*.monitor.lock
+*.workload.lock
+.DS_Store
+Thumbs.db
+
+# Local specification documents
+/Review*.pdf
+/Review*.docx
+/Project PPT Review 1.pdf

@@ -1,0 +1,27 @@
+sampling_interval_seconds: 2
+rolling_window_size: 60
+zscore_threshold: 3.0
+zscore_medium_threshold: 4.0
+isolation_forest_estimators: 100
+isolation_forest_contamination: auto
+random_seed: 42
+retraining_interval_samples: 30
+recovery_samples_before_retraining: 60
+database_path: data/system_insight.sqlite3
+retention: preserve_all
+ui_refresh_seconds: 2
+stale_after_seconds: 10
+feature_change_samples: 5
+incident_recovery_samples: 5
+minimum_std:
+  cpu_percent: 1.0
+  ram_percent: 0.1
+  disk_read_bps: 4096.0
+  disk_write_bps: 4096.0
+  process_count: 1.0
+  swap_percent: 0.1
+demo_max_seconds: 20
+demo_memory_mb: 64
+demo_disk_mb: 8
+demo_process_count: 3
+demo_cpu_duty: 0.25

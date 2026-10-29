@@ -1,0 +1,13 @@
+[project]
+name = "system-insight-os"
+version = "1.0.0"
+description = "Offline operating system telemetry and explainable anomaly monitoring"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["src/ui.py"]
